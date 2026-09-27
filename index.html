@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>MUZ | Mujahid Totager</title>
+<meta name="description" content="Personal portfolio of Mujahid Totager (Muz), a BCA student and technology learner from Dharwad.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🖥️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#05070a; --bg2:#080c12; --panel:rgba(14,20,28,0.55); --border:rgba(120,220,255,0.18);
+  --cyan:#37e6ff; --cyan-dim:#1a9fc9; --green:#3dffb0; --ink:#dce8ee; --ink-dim:#8ea3ad;
+  --font-head:'Space Grotesk',sans-serif; --font-mono:'JetBrains Mono',monospace;
+  box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+*{box-sizing:border-box; margin:0; padding:0;}
+html{scroll-behavior:smooth; scroll-padding-top:calc(70px + env(safe-area-inset-top,0px));}
+body{
+  background:var(--bg); color:var(--ink); font-family:var(--font-head);
+  overflow-x:hidden; line-height:1.5; -webkit-font-smoothing:antialiased;
+}
+::selection{background:var(--cyan); color:#000;}
+#bgcanvas{position:fixed; inset:0; z-index:0; opacity:0.5;}
+.grid-overlay{
+  position:fixed; inset:0; z-index:1; pointer-events:none;
+  background-image:linear-gradient(rgba(55,230,255,0.035) 1px,transparent 1px),linear-gradient(90deg,rgba(55,230,255,0.035) 1px,transparent 1px);
+  background-size:42px 42px; mask-image:radial-gradient(ellipse 80% 60% at 50% 0%,#000 40%,transparent 90%);
+}
+main,header,footer{position:relative; z-index:2;}
+
+/* NAV */
+nav{
+  position:fixed; top:0; left:0; right:0; z-index:50;
+  padding:calc(16px + env(safe-area-inset-top,0px)) 6vw 16px;
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(5,7,10,0.55); backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.logo{font-family:var(--font-mono); font-weight:700; color:var(--cyan); font-size:1.1rem; letter-spacing:1px;}
+.navlinks{display:flex; gap:28px; list-style:none; font-family:var(--font-mono); font-size:0.82rem;}
+.navlinks a{color:var(--ink-dim); text-decoration:none; transition:color .25s; position:relative;}
+.navlinks a:hover{color:var(--cyan);}
+.hamburger{display:none; flex-direction:column; gap:5px; background:none; border:none; cursor:pointer; z-index:60;}
+.hamburger span{width:22px; height:2px; background:var(--cyan);}
+.mobile-menu{
+  position:fixed; inset:0; background:rgba(5,8,12,0.98); backdrop-filter:blur(10px); z-index:55;
+  display:flex; flex-direction:column; align-items:center; justify-content:center; gap:30px;
+  font-family:var(--font-mono); font-size:1.15rem;
+  transform:translateY(-100%); transition:transform .35s ease; visibility:hidden;
+}
+.mobile-menu.open{transform:translateY(0); visibility:visible;}
+.mobile-menu a{color:var(--ink); text-decoration:none;}
+
+/* HERO */
+.hero{
+  min-height:100svh; display:flex; align-items:center; justify-content:center;
+  padding:110px 6vw 60px; position:relative;
+}
+.hero-inner{
+  display:grid; grid-template-columns:1.1fr 0.9fr; gap:60px; align-items:center; max-width:1180px; width:100%;
+}
+.hero-text .kicker{font-family:var(--font-mono); color:var(--green); font-size:0.8rem; letter-spacing:2px; display:block; margin-bottom:18px;}
+.glitch{
+  font-size:clamp(3.2rem,9vw,6rem); font-weight:700; letter-spacing:-2px; position:relative; color:#fff;
+  text-shadow:0 0 30px rgba(55,230,255,0.35);
+}
+.glitch::before,.glitch::after{
+  content:'MUZ'; position:absolute; left:0; top:0; width:100%; overflow:hidden;
+  background:var(--bg); clip-path:inset(0 0 0 0);
+}
+.glitch::before{color:var(--cyan); animation:glitch1 5.2s infinite linear; left:2px;}
+.glitch::after{color:var(--green); animation:glitch2 6.1s infinite linear; left:-2px;}
+@keyframes glitch1{0%,92%,100%{clip-path:inset(0 0 100% 0); opacity:0;} 93%{clip-path:inset(10% 0 60% 0); opacity:.8;} 94%{clip-path:inset(70% 0 5% 0); opacity:.8;} 95%{opacity:0;}}
+@keyframes glitch2{0%,90%,100%{clip-path:inset(0 0 100% 0); opacity:0;} 91%{clip-path:inset(40% 0 20% 0); opacity:.7;} 92%{clip-path:inset(5% 0 80% 0); opacity:.7;} 93%{opacity:0;}}
+.hero-sub{font-size:1.05rem; color:var(--ink); margin-top:20px; font-weight:500;}
+.hero-desc{color:var(--ink-dim); max-width:46ch; margin-top:16px; font-size:0.98rem;}
+.hero-btns{display:flex; gap:16px; margin-top:34px; flex-wrap:wrap;}
+.btn{
+  font-family:var(--font-mono); font-size:0.85rem; padding:13px 26px; border-radius:3px; text-decoration:none;
+  transition:transform .2s, box-shadow .2s; display:inline-block; border:1px solid var(--border);
+}
+.btn-primary{background:var(--cyan); color:#02141a; font-weight:700; border-color:var(--cyan);}
+.btn-primary:hover{transform:translateY(-2px); box-shadow:0 8px 30px rgba(55,230,255,0.35);}
+.btn-ghost{color:var(--cyan); background:rgba(55,230,255,0.05);}
+.btn-ghost:hover{transform:translateY(-2px); border-color:var(--cyan);}
+
+.term-panel{
+  margin-top:36px; background:var(--panel); border:1px solid var(--border); border-radius:8px;
+  padding:16px 20px; font-family:var(--font-mono); font-size:0.8rem; max-width:340px;
+  backdrop-filter:blur(12px); box-shadow:0 0 40px rgba(55,230,255,0.06) inset;
+}
+.term-panel .dot-row{display:flex; gap:6px; margin-bottom:12px;}
+.term-panel .dot{width:9px; height:9px; border-radius:50%;}
+.term-panel .row{display:flex; justify-content:space-between; color:var(--ink-dim); padding:3px 0;}
+.term-panel .row b{color:var(--green); font-weight:500;}
+
+.hero-img-wrap{
+  position:relative; justify-self:center; width:min(340px,80vw); aspect-ratio:3/4;
+}
+.hero-img-frame{
+  width:100%; height:100%; border-radius:10px; overflow:hidden; position:relative;
+  border:1px solid var(--border); box-shadow:0 0 0 1px rgba(255,255,255,0.03), 0 30px 70px -20px rgba(0,0,0,0.7), 0 0 60px -10px rgba(55,230,255,0.25);
+}
+.hero-img-frame img{width:100%; height:100%; object-fit:cover; display:block; filter:saturate(1.05) contrast(1.05);}
+.hero-img-frame::after{
+  content:''; position:absolute; inset:0; background:linear-gradient(180deg,transparent 60%,rgba(5,7,10,0.7) 100%);
+}
+.scan-corner{position:absolute; width:26px; height:26px; border:2px solid var(--cyan);}
+.sc-tl{top:-10px; left:-10px; border-right:none; border-bottom:none;}
+.sc-br{bottom:-10px; right:-10px; border-left:none; border-top:none;}
+
+/* SECTION SHARED */
+section{padding:110px 6vw; max-width:1180px; margin:0 auto; position:relative;}
+.section-head{margin-bottom:56px;}
+.section-head .kicker{font-family:var(--font-mono); color:var(--green); font-size:0.78rem; letter-spacing:2px;}
+.section-head h2{font-size:clamp(2rem,4.5vw,2.8rem); font-weight:600; margin-top:10px; color:#fff;}
+.reveal{opacity:0; transform:translateY(24px); transition:opacity .7s ease, transform .7s ease;}
+.reveal.in{opacity:1; transform:translateY(0);}
+
+/* ABOUT */
+.about-grid{display:grid; grid-template-columns:0.8fr 1.2fr; gap:56px; align-items:start;}
+.about-img{border-radius:10px; overflow:hidden; border:1px solid var(--border); position:relative; box-shadow:0 20px 60px -20px rgba(0,0,0,0.6);}
+.about-img img{width:100%; display:block; object-fit:cover; aspect-ratio:3/4;}
+.about-text p{color:var(--ink-dim); margin-bottom:16px; font-size:1rem; max-width:60ch;}
+.about-list{list-style:none; margin:24px 0; display:grid; gap:10px; font-size:0.94rem;}
+.about-list li{color:var(--ink); display:flex; gap:10px;}
+.about-list li::before{content:'›'; color:var(--cyan);}
+.terminal-card{
+  margin-top:30px; background:var(--panel); border:1px solid var(--border); border-radius:8px; overflow:hidden;
+  backdrop-filter:blur(12px);
+}
+.terminal-bar{display:flex; gap:6px; padding:10px 14px; border-bottom:1px solid rgba(255,255,255,0.06);}
+.terminal-bar span{width:9px; height:9px; border-radius:50%;}
+.terminal-body{padding:18px 20px; font-family:var(--font-mono); font-size:0.85rem; color:var(--ink-dim);}
+.terminal-body .line{margin-bottom:12px;}
+.terminal-body .prompt{color:var(--green);}
+.terminal-body .out{color:var(--cyan); padding-left:14px;}
+
+/* SKILLS */
+.grid4{display:grid; grid-template-columns:repeat(4,1fr); gap:20px;}
+.skill-card,.contact-card{
+  background:var(--panel); border:1px solid var(--border); border-radius:10px; padding:26px 22px;
+  backdrop-filter:blur(12px); transition:transform .25s, box-shadow .25s, border-color .25s;
+}
+.skill-card:hover,.contact-card:hover{transform:translateY(-6px); border-color:var(--cyan); box-shadow:0 16px 40px -14px rgba(55,230,255,0.25);}
+.skill-card .icon{font-family:var(--font-mono); color:var(--green); font-size:0.75rem; letter-spacing:1px;}
+.skill-card h3{margin:14px 0 8px; font-size:1.1rem; color:#fff;}
+.skill-card p{color:var(--ink-dim); font-size:0.9rem;}
+
+/* PROJECTS */
+.proj-grid{display:grid; grid-template-columns:1fr 1fr; gap:22px;}
+.proj-card{
+  background:var(--panel); border:1px solid var(--border); border-radius:12px; padding:32px 28px;
+  backdrop-filter:blur(12px); transition:transform .25s, border-color .25s; position:relative; overflow:hidden;
+}
+.proj-card:hover{transform:translateY(-5px); border-color:var(--cyan);}
+.proj-num{font-family:var(--font-mono); color:var(--cyan-dim); font-size:0.85rem;}
+.proj-card h3{font-size:1.35rem; margin:10px 0 12px; color:#fff;}
+.proj-card p{color:var(--ink-dim); font-size:0.93rem; margin-bottom:18px;}
+.tags{display:flex; gap:8px; flex-wrap:wrap; font-family:var(--font-mono); font-size:0.72rem;}
+.tags span{border:1px solid var(--border); padding:4px 10px; border-radius:20px; color:var(--ink-dim);}
+
+/* LEARNING */
+.timeline{border-left:1px solid var(--border); margin-left:8px; padding-left:34px; display:grid; gap:38px;}
+.t-item{position:relative;}
+.t-item::before{content:''; position:absolute; left:-41px; top:4px; width:10px; height:10px; border-radius:50%; background:var(--cyan); box-shadow:0 0 12px var(--cyan);}
+.t-item h3{font-size:1.1rem; color:#fff; margin-bottom:6px;}
+.t-item p{color:var(--ink-dim); font-size:0.92rem; max-width:60ch;}
+.quote-card{
+  margin-top:44px; border-left:2px solid var(--green); padding:16px 24px; font-family:var(--font-mono);
+  color:var(--ink); font-style:normal; font-size:0.98rem; background:rgba(61,255,176,0.04);
+}
+
+/* CONTACT */
+.contact-grid{display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:20px;}
+.contact-card{text-align:center; text-decoration:none; color:var(--ink); cursor:pointer;}
+.contact-card .cicon{font-size:1.6rem; margin-bottom:10px;}
+.contact-card h4{font-family:var(--font-mono); font-size:0.85rem; letter-spacing:1px; color:var(--cyan);}
+.contact-card p{font-size:0.82rem; color:var(--ink-dim); margin-top:6px; word-break:break-word;}
+
+footer{
+  padding:40px 6vw calc(30px + env(safe-area-inset-bottom,0px)); text-align:center; border-top:1px solid rgba(255,255,255,0.06);
+  font-family:var(--font-mono); font-size:0.76rem; color:var(--ink-dim); letter-spacing:0.5px;
+}
+
+@media (max-width:880px){
+  .navlinks{display:none;}
+  .hamburger{display:flex;}
+  .hero-inner{grid-template-columns:1fr; text-align:center;}
+  .hero-img-wrap{order:-1; margin:0 auto;}
+  .hero-btns,.term-panel{margin-left:auto; margin-right:auto;}
+  .about-grid{grid-template-columns:1fr;}
+  .grid4{grid-template-columns:repeat(2,1fr);}
+  .proj-grid{grid-template-columns:1fr;}
+  .contact-grid{grid-template-columns:1fr;}
+  section{padding:80px 6vw;}
+}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto;}
+  .glitch::before,.glitch::after{animation:none; display:none;}
+  .reveal{transition:none; opacity:1; transform:none;}
+}
+</style>
+</head>
+<body>
+<canvas id="bgcanvas"></canvas>
+<div class="grid-overlay"></div>
+
+<nav>
+  <div class="logo">MUZ//</div>
+  <ul class="navlinks">
+    <li><a href="#about">ABOUT</a></li>
+    <li><a href="#skills">SKILLS</a></li>
+    <li><a href="#projects">PROJECTS</a></li>
+    <li><a href="#learning">LEARNING</a></li>
+    <li><a href="#contact">CONTACT</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about">ABOUT</a>
+  <a href="#skills">SKILLS</a>
+  <a href="#projects">PROJECTS</a>
+  <a href="#learning">LEARNING</a>
+  <a href="#contact">CONTACT</a>
+</div>
+
+<main>
+  <section class="hero">
+    <div class="hero-inner">
+      <div class="hero-text">
+        <span class="kicker">DIGITAL IDENTITY</span>
+        <h1 class="glitch">MUZ</h1>
+        <div class="hero-sub">Mujahid Totager — BCA Student &amp; Technology Learner</div>
+        <p class="hero-desc">I'm building my path through code, AI and technology — one project at a time. I value silence, focused learning, books, and big goals.</p>
+        <div class="hero-btns">
+          <a href="#projects" class="btn btn-primary">VIEW PROJECTS</a>
+          <a href="#contact" class="btn btn-ghost">CONNECT</a>
+        </div>
+        <div class="term-panel">
+          <div class="dot-row"><span class="dot" style="background:#ff5f56"></span><span class="dot" style="background:#ffbd2e"></span><span class="dot" style="background:#27c93f"></span></div>
+          <div class="row">IDENTITY <b>MUZ</b></div>
+          <div class="row">STATUS <b id="typeStatus"></b></div>
+          <div class="row">MODE <b>FOCUS</b></div>
+          <div class="row">LOCATION <b>DHARWAD</b></div>
+        </div>
+      </div>
+      <div class="hero-img-wrap reveal">
+        <div class="hero-img-frame">
+          <img src="muz-photo-1.jpeg" alt="Mujahid Totager">
+        </div>
+        <div class="scan-corner sc-tl"></div>
+        <div class="scan-corner sc-br"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="about">
+    <div class="section-head reveal">
+      <span class="kicker">// ABOUT</span>
+      <h2>Quiet mind. Big goals.</h2>
+    </div>
+    <div class="about-grid">
+      <div class="about-img reveal"><img src="muz-photo-2.jpeg" alt="Mujahid Totager portrait"></div>
+      <div class="about-text reveal">
+        <p>I'm Mujahid Totager, known as Muz, a BCA student from Dharwad. I enjoy working quietly, exploring technology, reading books and learning how modern digital tools can turn ideas into real projects.</p>
+        <p>My long-term direction is technology and cybersecurity. Right now, I'm strengthening my foundations in development, AI tools and practical project building.</p>
+        <ul class="about-list">
+          <li>I enjoy spending time alone</li>
+          <li>I like silence and focused environments</li>
+          <li>I have big goals</li>
+          <li>Book reading is one of my hobbies</li>
+          <li>I enjoy technology and experimenting with new digital tools</li>
+          <li>I believe in learning by building</li>
+        </ul>
+        <div class="terminal-card">
+          <div class="terminal-bar"><span style="background:#ff5f56"></span><span style="background:#ffbd2e"></span><span style="background:#27c93f"></span></div>
+          <div class="terminal-body">
+            <div class="line"><span class="prompt">muz@portfolio:~$</span> whoami<br><span class="out">→ BCA student</span></div>
+            <div class="line"><span class="prompt">muz@portfolio:~$</span> location<br><span class="out">→ Dharwad, Karnataka</span></div>
+            <div class="line"><span class="prompt">muz@portfolio:~$</span> mindset<br><span class="out">→ Learn. Build. Improve.</span></div>
+            <div class="line"><span class="prompt">muz@portfolio:~$</span> hobbies<br><span class="out">→ Books · Technology · Quiet time</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="skills">
+    <div class="section-head reveal">
+      <span class="kicker">// SKILLS</span>
+      <h2>Tools I Build With</h2>
+    </div>
+    <div class="grid4">
+      <div class="skill-card reveal"><span class="icon">01</span><h3>Website Development</h3><p>Responsive websites, landing pages and practical web experiences.</p></div>
+      <div class="skill-card reveal"><span class="icon">02</span><h3>App Development</h3><p>Building mobile-focused applications and prototypes.</p></div>
+      <div class="skill-card reveal"><span class="icon">03</span><h3>AI Tools</h3><p>Using AI tools for learning, productivity, creativity and development.</p></div>
+      <div class="skill-card reveal"><span class="icon">04</span><h3>GitHub</h3><p>Managing projects, experimenting with code and learning development workflows.</p></div>
+    </div>
+  </section>
+
+  <section id="projects">
+    <div class="section-head reveal">
+      <span class="kicker">// PROJECTS</span>
+      <h2>Things I've Been Building</h2>
+    </div>
+    <div class="proj-grid">
+      <div class="proj-card reveal"><div class="proj-num">01</div><h3>Hacker Club App</h3><p>A student-focused technology community concept for people interested in technology, cybersecurity and learning.</p><div class="tags"><span>APP</span><span>TECHNOLOGY</span><span>COMMUNITY</span></div></div>
+      <div class="proj-card reveal"><div class="proj-num">02</div><h3>Telegram Bot</h3><p>A bot project exploring automation, commands and practical messaging-platform utilities.</p><div class="tags"><span>BOT</span><span>AUTOMATION</span><span>API</span></div></div>
+      <div class="proj-card reveal"><div class="proj-num">03</div><h3>Cartoon Game</h3><p>A creative game project focused on interaction, logic and learning through development.</p><div class="tags"><span>GAME</span><span>LOGIC</span><span>DEVELOPMENT</span></div></div>
+      <div class="proj-card reveal"><div class="proj-num">04</div><h3>College Attendance App</h3><p>A practical student utility concept designed to make attendance tracking easier.</p><div class="tags"><span>STUDENT</span><span>UTILITY</span><span>APP</span></div></div>
+    </div>
+  </section>
+
+  <section id="learning">
+    <div class="section-head reveal">
+      <span class="kicker">// LEARNING</span>
+      <h2>Still Loading...</h2>
+      <p style="color:var(--ink-dim); margin-top:12px;">The goal is not to know everything. It is to keep getting better.</p>
+    </div>
+    <div class="timeline">
+      <div class="t-item reveal"><h3>BCA Foundations</h3><p>Programming, algorithms, databases and computer fundamentals.</p></div>
+      <div class="t-item reveal"><h3>Web &amp; App Development</h3><p>Learning how ideas become usable interfaces and working applications.</p></div>
+      <div class="t-item reveal"><h3>AI &amp; Modern Tools</h3><p>Exploring AI tools for coding, research, creativity and productivity.</p></div>
+      <div class="t-item reveal"><h3>Cybersecurity Direction</h3><p>Building a responsible foundation toward ethical hacking and cybersecurity.</p></div>
+    </div>
+    <div class="quote-card reveal">"Stay quiet. Keep learning. Build something that speaks for you."</div>
+  </section>
+
+  <section id="contact">
+    <div class="section-head reveal">
+      <span class="kicker">// CONTACT</span>
+      <h2>Open a Connection</h2>
+      <p style="color:var(--ink-dim); margin-top:12px;">For projects, collaboration or just a technology conversation.</p>
+    </div>
+    <div class="contact-grid">
+      <a href="https://wa.me/919449691786" target="_blank" rel="noopener" class="contact-card reveal"><div class="cicon">💬</div><h4>WHATSAPP</h4><p>+91 94496 91786</p></a>
+      <a href="mailto:muztotager@gmail.com" class="contact-card reveal"><div class="cicon">✉</div><h4>EMAIL</h4><p>muztotager@gmail.com</p></a>
+      <a href="https://www.instagram.com/mujahid___01_/" target="_blank" rel="noopener" class="contact-card reveal"><div class="cicon">◎</div><h4>INSTAGRAM</h4><p>@mujahid___01_</p></a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  MUZ // MUJAHID TOTAGER<br>
+  DHARWAD · BUILT WITH CODE &amp; CURIOSITY<br>
+  © 2026
+</footer>
+
+<script>
+// Hamburger
+const ham=document.getElementById('hamburger'), mm=document.getElementById('mobileMenu');
+ham.addEventListener('click',()=>mm.classList.toggle('open'));
+mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>mm.classList.remove('open')));
+
+// Scroll reveal
+const obs=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); obs.unobserve(e.target);} });
+},{threshold:0.15});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+// Terminal typing status
+const statuses=["LEARNING // BUILDING","COMPILING IDEAS","ONLINE"];
+let si=0, statusEl=document.getElementById('typeStatus');
+function typeStatus(){
+  const text=statuses[si]; let i=0;
+  statusEl.textContent='';
+  const iv=setInterval(()=>{
+    statusEl.textContent+=text[i]; i++;
+    if(i>=text.length){ clearInterval(iv); setTimeout(()=>{ si=(si+1)%statuses.length; typeStatus(); },2200);}
+  },45);
+}
+typeStatus();
+
+// Lightweight particle / matrix background
+const canvas=document.getElementById('bgcanvas'), ctx=canvas.getContext('2d');
+let w,h,particles=[];
+function resize(){ w=canvas.width=innerWidth; h=canvas.height=innerHeight; }
+resize(); addEventListener('resize',resize);
+const count = innerWidth<700 ? 45 : 90;
+for(let i=0;i<count;i++){
+  particles.push({x:Math.random()*w, y:Math.random()*h, r:Math.random()*1.6+0.4, vy:Math.random()*0.25+0.05, a:Math.random()*0.5+0.15});
+}
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function draw(){
+  ctx.clearRect(0,0,w,h);
+  ctx.fillStyle='rgba(55,230,255,0.7)';
+  particles.forEach(p=>{
+    ctx.globalAlpha=p.a;
+    ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+    if(!reduceMotion){ p.y-=p.vy; if(p.y<-5){p.y=h+5; p.x=Math.random()*w;} }
+  });
+  ctx.globalAlpha=1;
+  if(!reduceMotion) requestAnimationFrame(draw);
+}
+draw();
+</script>
+</body>
+</html>
